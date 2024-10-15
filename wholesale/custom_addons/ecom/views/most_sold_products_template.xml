@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="most_sold_products">
+        <t t-call="website.layout">
+            <div class="product-recommendation container">
+            <h1>Recommended Products</h1>
+            <div t-if="recommended_products">
+                <div class="row">
+                    <t t-name="ecom.most_sold_products">
+                        <div class="most-sold-products">
+                            <h4>Most Sold Products</h4>
+                            <div class="pb-3">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a t-attf-class="nav-link #{'active' if 'all' == current_category_id else ''}" aria-current="page" href="/shop/most_sold_products">All</a>
+                                    </li>
+
+                                    <t t-foreach="categories" t-as="category">
+                                        <li class="nav-item">
+                                            <a t-attf-class="nav-link #{'active' if category.id == current_category_id else ''}" aria-current="page" t-attf-href="/shop/most_sold_products?category=#{category.name}"><t t-esc="category.name" /></a>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                <t t-foreach="product_sales" t-as="product_data">
+                                    <div class="col">
+                                        <div class="card">
+                                          <img t-att-src="'/web/image/product.product/' + str(product_data['product'].id) + '/image_1920'" alt="Product Image" class="card-img-top" />
+                                          <div class="card-body">
+                                              <a t-attf-href="/shop/product/#{product_data['product'].id}">
+                                                <h5 class="card-title"><t t-esc="product_data['product'].name"/></h5>
+                                              </a>
+                                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                            - Sold Quantity: <t t-esc="product_data['sales_count']"/>
+                                          </div>
+                                        </div>
+                                      </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+        </t>
+    </template>
+</odoo>
